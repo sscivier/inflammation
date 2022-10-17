@@ -47,6 +47,8 @@ def patient_normalise(data):
     
     Any negative values are clipped to 0
     """
+    if np.any(data < 0):
+        raise ValueError('inflammation values should be non-negative')
     max_for_each_patient = np.nanmax(data, axis=1)
     with np.errstate(invalid='ignore', divide='ignore'):
         normalized = data / max_for_each_patient[:, np.newaxis]
