@@ -41,4 +41,29 @@ def test_load_csv(mock_get_data_dir):
         assert kwargs['fname'] == '/test.csv'
 
 # TODO(lesson-automatic) Implement tests for the other statistical functions
+
+def test_daily_max():
+    """Test that max function works for an array of positive integers."""
+    from inflammation.models import daily_max
+
+    test_array = np.array([[4, 2, 5],
+                           [1, 6, 2],
+                           [4, 1, 9]]) # yapf: disable
+
+    # Need to use Numpy testing functions to compare arrays
+    npt.assert_array_equal(np.array([4, 6, 9]), daily_max(test_array))
+
+
+def test_daily_min():
+    """Test that min function works for an array of positive and negative integers."""
+    from inflammation.models import daily_min
+
+    test_array = np.array([[ 4, -2, 5],
+                           [ 1, -6, 2],
+                           [-4, -1, 9]]) # yapf: disable
+
+    # Need to use Numpy testing functions to compare arrays
+    npt.assert_array_equal(np.array([-4, -6, 2]), daily_min(test_array))
+
+    
 # TODO(lesson-mocking) Implement a unit test for the load_csv function
