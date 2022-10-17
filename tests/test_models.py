@@ -82,17 +82,6 @@ def test_patient_normalise(test, expected, raises):
         npt.assert_almost_equal(np.array(expected), patient_normalise(test), decimal=2)
 
 
-@patch('inflammation.models.get_data_dir', return_value='/data_dir')
-def test_load_csv(mock_get_data_dir):
-    from inflammation.models import load_csv
-    with patch('numpy.loadtxt') as mock_loadtxt:
-        load_csv('test.csv')
-        name, args, kwargs = mock_loadtxt.mock_calls[0]
-        assert kwargs['fname'] == '/data_dir/test.csv'
-        load_csv('/test.csv')
-        name, args, kwargs = mock_loadtxt.mock_calls[1]
-        assert kwargs['fname'] == '/test.csv'
-
 # TODO(lesson-automatic) Implement tests for the other statistical functions
 
 @pytest.mark.parametrize(
@@ -126,3 +115,14 @@ def test_daily_min(test, expected):
 
 
 # TODO(lesson-mocking) Implement a unit test for the load_csv function
+
+@patch('inflammation.models.get_data_dir', return_value='/data_dir')
+def test_load_csv(mock_get_data_dir):
+    from inflammation.models import load_csv
+    with patch('numpy.loadtxt') as mock_loadtxt:
+        load_csv('test.csv')
+        name, args, kwargs = mock_loadtxt.mock_calls[0]
+        assert kwargs['fname'] == '/data_dir/test.csv'
+        load_csv('/test.csv')
+        name, args, kwargs = mock_loadtxt.mock_calls[1]
+        assert kwargs['fname'] == '/test.csv'
