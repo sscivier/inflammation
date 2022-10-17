@@ -1,5 +1,6 @@
 """Tests for statistics functions within the Model layer."""
 
+import pytest
 import numpy as np
 import numpy.testing as npt
 from unittest.mock import patch
@@ -28,6 +29,16 @@ def test_daily_mean_integers():
 
     # Need to use Numpy testing functions to compare arrays
     npt.assert_array_equal(np.array([3, 4]), daily_mean(test_array))
+
+
+def test_daily_min_string():
+    """Test for TypeError when passing strings"""
+    from inflammation.models import daily_min
+
+    with pytest.raises(TypeError):
+        error_expected = daily_min([['Hello', 'there'], 
+                                    ['General', 'Kenobi']])
+
 
 @patch('inflammation.models.get_data_dir', return_value='/data_dir')
 def test_load_csv(mock_get_data_dir):
@@ -65,5 +76,5 @@ def test_daily_min():
     # Need to use Numpy testing functions to compare arrays
     npt.assert_array_equal(np.array([-4, -6, 2]), daily_min(test_array))
 
-    
+
 # TODO(lesson-mocking) Implement a unit test for the load_csv function
