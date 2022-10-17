@@ -10,3 +10,6 @@ venv/
 
 # Python runtime
 *.pyc
+
+# Test coverage file
+.coverage
