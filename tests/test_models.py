@@ -39,28 +39,34 @@ def test_load_csv(mock_get_data_dir):
 
 # TODO(lesson-automatic) Implement tests for the other statistical functions
 
-def test_daily_max():
-    """Test that max function works for an array of positive integers."""
+@pytest.mark.parametrize(
+    "test, expected",
+    [
+        ([[0, 0, 0], [0, 0, 0], [0, 0, 0]], [0, 0, 0]),
+        ([[4, 2, 5], [1, 6, 2], [4, 1, 9]], [4, 6, 9]),
+        ([[4, -2, 5], [1, -6, 2], [-4, -1, 9]], [4, -1, 9]),
+    ]
+)
+def test_daily_max(test, expected):
+    """Test that max function works for an array of zeros, positive integers, mix of
+    positive/negative integers."""
     from inflammation.models import daily_max
-
-    test_array = np.array([[4, 2, 5],
-                           [1, 6, 2],
-                           [4, 1, 9]]) # yapf: disable
-
-    # Need to use Numpy testing functions to compare arrays
-    npt.assert_array_equal(np.array([4, 6, 9]), daily_max(test_array))
+    npt.assert_array_equal(np.array(expected), daily_max(np.array(test)))
 
 
-def test_daily_min():
-    """Test that min function works for an array of positive and negative integers."""
+@pytest.mark.parametrize(
+    "test, expected",
+    [
+        ([[0, 0, 0], [0, 0, 0], [0, 0, 0]], [0, 0, 0]),
+        ([[4, 2, 5], [1, 6, 2], [4, 1, 9]], [1, 1, 2]),
+        ([[4, -2, 5], [1, -6, 2], [-4, -1, 9]], [-4, -6, 2]),
+    ]
+)
+def test_daily_min(test, expected):
+    """Test that min function works for an array of zeros, positive integers, mix of
+    positive/negative integers."""
     from inflammation.models import daily_min
-
-    test_array = np.array([[ 4, -2, 5],
-                           [ 1, -6, 2],
-                           [-4, -1, 9]]) # yapf: disable
-
-    # Need to use Numpy testing functions to compare arrays
-    npt.assert_array_equal(np.array([-4, -6, 2]), daily_min(test_array))
+    npt.assert_array_equal(np.array(expected), daily_min(np.array(test)))
 
 
 # TODO(lesson-mocking) Implement a unit test for the load_csv function
